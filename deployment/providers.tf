@@ -4,6 +4,9 @@ terraform {
   }
   backend "remote" {
     organization = "KodeArkAdmin"
+    workspaces {
+      prefix = "z-infra-"
+    }
   }
 }
 

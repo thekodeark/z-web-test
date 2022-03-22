@@ -10,7 +10,7 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     env:
-      TF_WORKSPACE: "z-infra"
+      TF_WORKSPACE: dev
     defaults:
       run:
         working-directory: ./deployment
