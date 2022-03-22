@@ -125,7 +125,7 @@ module "ecs" {
     essential = true
     portMappings = {
       containerPort = 3000
-      hostPort      = 0
+      hostPort      = 3000
     }
     environment = [{
       name  = "PG_USER"
