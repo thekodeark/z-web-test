@@ -118,14 +118,14 @@ module "ecs" {
   certificate_arn        = module.cert.arn
   fqdn                   = local.fqdn
   container_definition = {
-    name      = "nginx"
+    name      = local.module_name
     image     = module.ecr.url
     cpu       = 512
     memory    = 1024
     essential = true
     portMappings = {
       containerPort = 3000
-      hostPort      = 3000
+      hostPort      = 0
     }
     environment = [{
       name  = "PG_USER"
