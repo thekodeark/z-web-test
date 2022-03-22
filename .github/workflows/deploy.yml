@@ -9,6 +9,8 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
+    env:
+      TF_WORKSPACE: "z-infra"
     defaults:
       run:
         working-directory: ./deployment
@@ -20,25 +22,27 @@ jobs:
     - name: Terraform fmt
       id: fmt
       run: |
-        terraform workspace select z-infra
         terraform fmt -check
       continue-on-error: true
 
     - name: Terraform Init
       id: init
       run: |
-        terraform workspace select z-infra
         terraform init
 
     - name: Terraform Validate
       id: validate
       run: |
-        terraform workspace select z-infra
         terraform validate -no-color
+
+    - name: Terraform Plan
+      id: plan
+      run: |
+        terraform plan -input=false
+      continue-on-error: true
 
     - name: Terraform Apply
       id: apply
       run: |
-        terraform workspace select z-infra
-        terraform -input=false -auto-approve
+        terraform apply -input=false -auto-approve
       continue-on-error: true
