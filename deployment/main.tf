@@ -119,7 +119,7 @@ module "ecs" {
   fqdn                   = local.fqdn
   container_definition = {
     name      = "nginx"
-    image     = module.ecr.repository_url
+    image     = module.ecr.url
     cpu       = 512
     memory    = 1024
     essential = true
