@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ${{ env.tf_actions_working_dir }}
+        working-directory: ./deployment
     steps:
     - uses: actions/checkout@v2
     - uses: hashicorp/setup-terraform@v
