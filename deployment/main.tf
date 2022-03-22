@@ -80,9 +80,9 @@ module "security_group_service" {
         from_port        = 0
         to_port          = 0
         protocol         = "-1"
-        cidr_blocks      = null
-        ipv6_cidr_blocks = null
-        security_groups  = [module.security_group_lb.id]
+        cidr_blocks      = ["0.0.0.0/0"]
+        ipv6_cidr_blocks = ["::/0"]
+        security_groups  = null
       }
     ]
   }
