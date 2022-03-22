@@ -45,7 +45,7 @@ jobs:
           TF_WORKSPACE: z-infra
 
       - name: Terraform Apply
-        id: plan
+        id: apply
         run: terraform -chdir=deployment apply -auto-approve
         continue-on-error: false  
         env:
