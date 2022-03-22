@@ -1,12 +1,11 @@
 name: Build
 
 on:
- 
   push:
-    branches: [ develop, dev ]
+    branches: 
+      - '**'
 
-jobs:
-  
+jobs:  
   build:
     
     name: Build Image

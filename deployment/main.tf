@@ -73,6 +73,14 @@ module "security_group_service" {
         cidr_blocks      = null
         ipv6_cidr_blocks = null
         security_groups  = [module.security_group_lb.id]
+      },
+      {
+        from_port        = 22
+        to_port          = 22
+        protocol         = "tcp"
+        cidr_blocks      = ["0.0.0.0/0"]
+        ipv6_cidr_blocks = ["::/0"]
+        security_groups  = null
       }
     ]
     egress = [
@@ -126,24 +134,18 @@ module "ecs" {
     portMappings = {
       containerPort = 3000
       hostPort      = 3000
+      protocol      = "tcp"
     }
+
+    command = []
     environment = [{
       name  = "PG_USER"
       value = "ASHUTOSH"
     }]
-    volume = {
-      name      = "service-storage"
-      host_path = "/ecs/service-storage"
-    }
   }
   ec2_config = {
     security_group_ids = [module.security_group_service.id]
-    instance_type  = "t2.micro"
-    public_key     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8RE5kWH53AbXgEsomNl7tXAz4oLvJd4iM0M71yCpGuOo58czvnohELVSWbjQIv2SOgTQT7tnKVaVhupnKdA8Yw49PD585w1ZufWbz1mv0ntPyV9/b8b99s/Myufq2vq9DQe5sW+5TFDHuaFVKYwh9yRm1drLdSATF0g2FJdSul22D457PwYwT6nouPQRftJgMfSpklVOsTMg4oXt81KjOkn667syrjKx97H2N4PLpgwEQMFMZjsPMI4skE0Q8E3GqZaIIWiAPA8zFm0oJ/cF7WwMkBjVy135OxgRPGe1EB8In1m7RJ67vq8fhchyuviMqEJrFYmZ5tExFuNadeI0RyYRV7i4V46QjEfO5FVwodxWKLiJodsDudjuwmLcio5azIHeFB3O4Xq/EVnMcD6BsBPQSE3qpHQXlekVVXQFY2KiclRgXruKMMKmBM0uES/denWcSi100SEuIW/jEqN3zmdHxzJkvZL1qmmpARAHgPMpSLlKYOz5IYkzCi6poJY4K0AmqJgHIjKmk5+S5x0xjIt8vp+EVS9q9Uu4EDlqFrlBvHVMfEp+Ch8mIhXj8ZhSjKsICBLgoGiZt+QbEv+jOs3mAV6KDFN3gbqikpXDtt+jLAmnmGlI6F9T7wiviPjnf7y2TIvVOZL1mSqm8vDfYmUSlzzTCENGkctHJbYTY0w== ashu.singh212@gmail.com"
-    root_block_device = {
-      delete_on_termination = "true"
-      volume_size           = "30"
-      volume_type           = "gp2"
-    }
+    instance_type      = "t2.micro"
+    public_key         = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8RE5kWH53AbXgEsomNl7tXAz4oLvJd4iM0M71yCpGuOo58czvnohELVSWbjQIv2SOgTQT7tnKVaVhupnKdA8Yw49PD585w1ZufWbz1mv0ntPyV9/b8b99s/Myufq2vq9DQe5sW+5TFDHuaFVKYwh9yRm1drLdSATF0g2FJdSul22D457PwYwT6nouPQRftJgMfSpklVOsTMg4oXt81KjOkn667syrjKx97H2N4PLpgwEQMFMZjsPMI4skE0Q8E3GqZaIIWiAPA8zFm0oJ/cF7WwMkBjVy135OxgRPGe1EB8In1m7RJ67vq8fhchyuviMqEJrFYmZ5tExFuNadeI0RyYRV7i4V46QjEfO5FVwodxWKLiJodsDudjuwmLcio5azIHeFB3O4Xq/EVnMcD6BsBPQSE3qpHQXlekVVXQFY2KiclRgXruKMMKmBM0uES/denWcSi100SEuIW/jEqN3zmdHxzJkvZL1qmmpARAHgPMpSLlKYOz5IYkzCi6poJY4K0AmqJgHIjKmk5+S5x0xjIt8vp+EVS9q9Uu4EDlqFrlBvHVMfEp+Ch8mIhXj8ZhSjKsICBLgoGiZt+QbEv+jOs3mAV6KDFN3gbqikpXDtt+jLAmnmGlI6F9T7wiviPjnf7y2TIvVOZL1mSqm8vDfYmUSlzzTCENGkctHJbYTY0w== ashu.singh212@gmail.com"
   }
 }
