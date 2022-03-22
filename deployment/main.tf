@@ -25,7 +25,7 @@ module "security_group_lb" {
   version = "> 1.0.0"
   security_config = {
     vpc_id      = module.networking.vpc.id
-    module_name = local.module_name
+    module_name = "${local.module_name}-lb"
     environment = local.environment
     ingress = [
       {
@@ -63,7 +63,7 @@ module "security_group_service" {
   version = "> 1.0.0"
   security_config = {
     vpc_id      = module.networking.vpc.id
-    module_name = local.module_name
+    module_name = "${local.module_name}-service"
     environment = local.environment
     ingress = [
       {
