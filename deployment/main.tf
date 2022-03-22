@@ -1,8 +1,8 @@
 locals {
-    module_name = "z-web-server"
-    environment = "dev"
-    fqdn = "test.kodeark.com"
-    hosted_zone = "kodeark.com"
+  module_name = "z-web-server"
+  environment = "dev"
+  fqdn        = "test.kodeark.com"
+  hosted_zone = "kodeark.com"
 }
 
 data "aws_availability_zones" "available" {
@@ -10,7 +10,8 @@ data "aws_availability_zones" "available" {
 }
 
 module "networking" {
-  source             = "./modules/networking"
+  source             = "app.terraform.io/KodeArkAdmin/tonara-modules/aws//modules/networking"
+  version            = "> 1.0.0"
   module_name        = local.module_name
   environment        = local.environment
   cidr               = "10.10.0.0/16"
@@ -20,7 +21,8 @@ module "networking" {
 }
 
 module "security_group_lb" {
-  source = "./modules/security-group"
+  source  = "app.terraform.io/KodeArkAdmin/tonara-modules/aws//modules/security-group"
+  version = "> 1.0.0"
   security_config = {
     vpc_id      = module.networking.vpc.id
     module_name = local.module_name
@@ -57,7 +59,8 @@ module "security_group_lb" {
 }
 
 module "security_group_service" {
-  source = "./modules/security-group"
+  source  = "app.terraform.io/KodeArkAdmin/tonara-modules/aws//modules/security-group"
+  version = "> 1.0.0"
   security_config = {
     vpc_id      = module.networking.vpc.id
     module_name = local.module_name
@@ -86,20 +89,23 @@ module "security_group_service" {
 }
 
 module "ecr" {
-  source      = "./modules/ecr"
+  source      = "app.terraform.io/KodeArkAdmin/tonara-modules/aws//modules/ecr"
+  version     = "> 1.0.0"
   module_name = local.module_name
   environment = local.environment
 }
 
 module "cert" {
-  source      = "./modules/cert"
+  source      = "app.terraform.io/KodeArkAdmin/tonara-modules/aws//modules/cert"
+  version     = "> 1.0.0"
   fqdn        = local.fqdn
   hosted_zone = local.hosted_zone
 }
 
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html
 module "ecs" {
-  source      = "./modules/ecs"
+  source      = "app.terraform.io/KodeArkAdmin/tonara-modules/aws//modules/ecs"
+  version     = "> 1.0.0"
   module_name = local.module_name
   environment = local.environment
 
