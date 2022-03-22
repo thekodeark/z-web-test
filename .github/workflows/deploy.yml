@@ -1,0 +1,52 @@
+name: Deploy Service
+
+on:
+ 
+  push:
+    branches: [ master, main ]
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          # terraform_version: 0.13.0
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform -chdir=deployment init  
+        env:
+          TF_WORKSPACE: z-infra
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform -chdir=deployment fmt -check
+        env:
+          TF_WORKSPACE: z-infra
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform -chdir=deployment validate -no-color
+        env:
+          TF_WORKSPACE: z-infra
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform -chdir=deployment plan -no-color
+        continue-on-error: false  
+        env:
+          TF_WORKSPACE: z-infra
+
+      - name: Terraform Apply
+        id: plan
+        run: terraform -chdir=deployment apply -auto-approve
+        continue-on-error: false  
+        env:
+          TF_WORKSPACE: z-infra
