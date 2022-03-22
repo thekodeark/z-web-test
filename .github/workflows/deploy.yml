@@ -15,38 +15,44 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+        working-directory: ./deployment
         with:
           # terraform_version: 0.13.0
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Init
         id: init
-        run: terraform -chdir=deployment init  
+        run: terraform init  
+        working-directory: ./deployment
         env:
           TF_WORKSPACE: z-infra
 
       - name: Terraform Format
         id: fmt
-        run: terraform -chdir=deployment fmt -check
+        run: terraform fmt -check
+        working-directory: ./deployment
         env:
           TF_WORKSPACE: z-infra
 
       - name: Terraform Validate
         id: validate
-        run: terraform -chdir=deployment validate -no-color
+        run: terraform validate -no-color
+        working-directory: ./deployment
         env:
           TF_WORKSPACE: z-infra
 
       - name: Terraform Plan
         id: plan
-        run: terraform -chdir=deployment plan -no-color
+        run: terraform plan -no-color
+        working-directory: ./deployment
         continue-on-error: false  
         env:
           TF_WORKSPACE: z-infra
 
       - name: Terraform Apply
         id: apply
-        run: terraform -chdir=deployment apply -auto-approve
+        run: terraform apply -auto-approve
+        working-directory: ./deployment
         continue-on-error: false  
         env:
           TF_WORKSPACE: z-infra
