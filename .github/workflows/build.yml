@@ -38,7 +38,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: z-server-ecr
-        IMAGE_TAG: ${{ steps.vars.sha_short }}
+        IMAGE_TAG: v1
       run: |
         # Build a docker container and push it to ECR 
         echo "$IMAGE_TAG"
