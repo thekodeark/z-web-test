@@ -2,6 +2,9 @@ terraform {
   required_providers {
     aws = "~> 3.40.0"
   }
+  backend "remote" {
+    organization = "KodeArkAdmin"
+  }
 }
 
 provider "aws" {
