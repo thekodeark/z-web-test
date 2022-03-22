@@ -1,5 +1,5 @@
 locals {
-  module_name = "z-web-server"
+  module_name = "z-web-app"
   environment = "dev"
   fqdn        = "test.kodeark.com"
   hosted_zone = "kodeark.com"
